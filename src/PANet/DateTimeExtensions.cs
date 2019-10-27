@@ -1,6 +1,6 @@
 ﻿namespace System
 {
-	public static class Dates
+	public static class DateTimeExtensions
 	{
 		public static DateTime EasterSunday(this DateTime theDate)
 		{
