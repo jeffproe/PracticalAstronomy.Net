@@ -22,5 +22,53 @@
 			var easter = new DateTime(theDate.Year, n, p + 1);
 			return easter;
 		}
+
+		public static decimal JulianDay(this DateTime theDate)
+		{
+			int y = theDate.Year;
+			int m = theDate.Month;
+			decimal d = theDate.FractionalDay();
+
+			int yPrime = 0;
+			int mPrime = 0;
+			if (m >= 1 && m <= 2)
+			{
+				yPrime = y - 1;
+				mPrime = m + 12;
+			}
+			else
+			{
+				yPrime = y;
+				mPrime = m;
+			}
+
+			int B = 0;
+			int C = (int)(365.25m * yPrime);
+			var cutoff = new DateTime(1582, 10, 15);
+			if (theDate > cutoff)
+			{
+				int a = yPrime / 100;
+				B = 2 - a + ((int)(a / 4));
+			}
+			if (yPrime < 0)
+			{
+				C = (int)((365.25 * yPrime) - .75);
+			}
+			int D = (int)(30.6001 * (mPrime + 1));
+
+			var jd = B + C + D + d + 1720994.5m;
+			return jd;
+		}
+
+		private static decimal FractionalDay(this DateTime theDate)
+		{
+			var totalSeconds = theDate.Second;
+			totalSeconds += (theDate.Minute * 60);
+			totalSeconds += (theDate.Hour * 60 * 60);
+
+			var dayOfSeconds = 24 * 60 * 60;
+
+			return (decimal)theDate.Day + ((decimal)totalSeconds / (decimal)dayOfSeconds);
+		}
 	}
 }
