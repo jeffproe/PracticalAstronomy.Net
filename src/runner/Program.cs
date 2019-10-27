@@ -12,7 +12,8 @@ namespace runner
 				Console.WriteLine("PANet\n");
 
 				Console.WriteLine("1) Easter Sunday");
-				Console.WriteLine("2) Julian Day");
+				Console.WriteLine("2) Date to Julian Day");
+				Console.WriteLine("3) Julian Day to Date");
 				Console.WriteLine("Q) Quit");
 
 				Console.Write("\nSelection: ");
@@ -35,7 +36,11 @@ namespace runner
 							break;
 
 						case 2:
-							JulianDay();
+							DateToJulianDay();
+							break;
+
+						case 3:
+							JulianDayToDate();
 							break;
 					}
 				}
@@ -44,7 +49,22 @@ namespace runner
 			}
 		}
 
-		private static void JulianDay()
+		private static void JulianDayToDate()
+		{
+			Console.Write($"Enter Julian Day to convert [{DateTime.Now.JulianDay()}]: ");
+			string jd = Console.ReadLine();
+
+			decimal julianDay = DateTime.Now.JulianDay();
+			if (!string.IsNullOrWhiteSpace(jd))
+			{
+				decimal.TryParse(jd, out julianDay);
+			}
+
+			var date = JulianDateTime.FromJulianDay(julianDay);
+			Console.WriteLine($"\n\tJulian Day is: {date.ToString()}");
+		}
+
+		private static void DateToJulianDay()
 		{
 			Console.Write($"Enter year of date to convert to Julian Day [{DateTime.Now.Year}]: ");
 			var y = Console.ReadLine();
